@@ -1,0 +1,70 @@
+package com.example.timetableretry;
+
+import android.database.Cursor;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.timetableretry.Database.Database;
+
+import java.util.ArrayList;
+
+public class Today extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_today);
+
+        Database myDB;
+
+        ListView listView = findViewById(R.id.listView);
+        myDB = new Database(this);
+
+        ArrayList<String> theList = new ArrayList<>();
+        Cursor data = myDB.whatsToday();
+        data.moveToFirst();
+//        Cursor with = myDB.with();
+//        Cursor without = myDB.without();
+//        with.moveToFirst();
+//        without.moveToFirst();
+
+        if(data.getCount() == 0){
+            Toast.makeText(Today.this, "There is no entries set for today day", Toast.LENGTH_SHORT).show();
+        }else {
+            while (data.moveToNext()) {
+                theList.add(data.getString(1) + " - ID " + data.getString(0) + " / " + data.getString(2) + " - " + data.getString(3));
+                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
+                listView.setAdapter(listAdapter);
+            }
+        }
+
+//        if(without.getCount() == 0){
+//            if (with.getCount() == 0) {
+//                Toast.makeText(Today.this, "There is no entries set for today day", Toast.LENGTH_SHORT).show();
+//            } else {
+//                while (with.moveToNext()) {
+//                theList.add(with.getString(1) + " - ID " + with.getString(0) + " / " + with.getString(2) + " - " + with.getString(3));
+//            }
+//            }
+//        }else {
+//            while (without.moveToNext()) {
+//                theList.add(without.getString(1) + " - ID " + without.getString(0) + " / " + without.getString(2) + " - " + without.getString(3));
+//            }
+//            if (with.getCount() == 0) {
+//
+//            } else {
+//                while (with.moveToNext()) {
+//                    theList.add(with.getString(1) + " - ID " + with.getString(0) + " / " + with.getString(2) + " - " + with.getString(3));
+//                }
+//
+//            }
+//        }
+//        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, theList);
+//        listView.setAdapter(listAdapter);
+
+    }
+}
