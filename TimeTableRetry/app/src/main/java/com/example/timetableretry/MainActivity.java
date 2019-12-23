@@ -127,13 +127,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                             } else {
 
-                                //Calling the insertData functions from Database.java and storing the true or false return to isInserted
-                                boolean isInserted =  mydb.insertData(NameInput.getText().toString(), DayOWeek, startingInt, endingInt);
-                                if(isInserted == true) {
-                                    Toast.makeText(MainActivity.this, "Data Inserted",Toast.LENGTH_LONG).show();
-                                }
-                                else {
-                                    Toast.makeText(MainActivity.this, "Data Failed To Inserted",Toast.LENGTH_LONG).show();
+                                //Checking if the Starting time is earlier than the Ending time
+
+                                if (startingInt < endingInt) {
+
+                                    //Calling the insertData functions from Database.java and storing the true or false return to isInserted
+                                    boolean isInserted =  mydb.insertData(NameInput.getText().toString(), DayOWeek, startingInt, endingInt);
+                                    if(isInserted == true) {
+                                        Toast.makeText(MainActivity.this, "Data Inserted",Toast.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        Toast.makeText(MainActivity.this, "Data Failed To Inserted",Toast.LENGTH_LONG).show();
+                                    }
+
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Invalid Time (24hr)", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

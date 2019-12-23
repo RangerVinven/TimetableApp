@@ -21,15 +21,12 @@
 
             <ListView
                 android:id="@+id/listView"
-                android:layout_width="419dp"
-                android:layout_height="782dp"
-                android:layout_marginTop="28dp"
+                android:layout_width="409dp"
+                android:layout_height="847dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0">
-
-            </ListView>
+                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
