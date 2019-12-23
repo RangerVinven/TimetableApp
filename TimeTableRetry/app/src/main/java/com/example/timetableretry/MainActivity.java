@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.timetableretry.Database.Database;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Database mydb;
@@ -61,125 +63,81 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
 
+                //Getting input from editTexts
+
                 String StartingTime = startingTime.getText().toString();
                 String EndingTime = endingTime.getText().toString();
-                SQLiteDatabase db = mydb.getWritableDatabase();
 
-                String day = DayOWeek;
+                //Taking away the colon, if any
 
-                try {
-                    if (StartingTime.length() == 5 && EndingTime.length() == 5) {
+                StartingTime = StartingTime.replace(":", "");
+                EndingTime = EndingTime.replace(":", "");
 
-                        char[] StartingTimeArray = StartingTime.toCharArray();
-                        char[] EndingTimeArray = EndingTime.toCharArray();
+                //Turning the string values of the inputs ^ into intergers
 
-                        String StartingTimeValue = String.valueOf(StartingTimeArray[3]);
-                        String EndingTimeValue = String.valueOf(EndingTimeArray[3]);
+                int startingInt = Integer.valueOf(StartingTime);
+                int endingInt = Integer.valueOf(EndingTime);
 
-                        String StartingTimeValue2 = String.valueOf(StartingTimeArray);
-                        String EndingTimeValue2 = String.valueOf(EndingTimeArray);
+                //Checking if the time inputted is more than 4 characters in length
 
-                        String StartingTimeValue21 = StartingTimeValue;
-                        String EndingTimeValue21 = EndingTimeValue;
+                if (StartingTime.length() != 4 || EndingTime.length() != 4) {
 
-                        String StartingTimeValue1 = StartingTimeValue2.replace(":", "");
-                        String EndingTimeValue1 = EndingTimeValue2.replace(":", "");
+                    //Displaying "Invalid Time (24hr)" as toast
+                    Toast.makeText(MainActivity.this, "Invalid Time (24hr)", Toast.LENGTH_SHORT).show();
 
-                        int StartingTimeValue2Int = Integer.valueOf(StartingTimeValue21);
-                        int EndingTimeValue2Int = Integer.valueOf(EndingTimeValue21);
+                } else {
 
-                        if (StartingTimeValue2Int > 5 || EndingTimeValue2Int > 5) {
-                            Toast.makeText(MainActivity.this, "Invalid Time (It's 24hr!)", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                    //Turning the inputted values to arrays
 
-                            int StartingInt = Integer.valueOf(StartingTimeValue1);
-                            int EndingInt = Integer.valueOf(EndingTimeValue1);
+                    char[] StartingTimeArray = StartingTime.toCharArray();
+                    char[] EndingTimeArray = EndingTime.toCharArray();
 
-                            String ST = StartingTimeValue1;
-                            String ET = StartingTimeValue1;
+                    //Checking if the Starting and Ending time minutes are too high (above 59)
 
-                            //Trying to have the int keep a 0 at the start
+                    int startingMin = Integer.valueOf(String.valueOf(StartingTimeArray[2]));
+                    int endingMin = Integer.valueOf(String.valueOf(EndingTimeArray[2]));
 
-                            if (ST.startsWith("0")) {
-                                StartingTimeValue1 = String.format("%01d" , StartingInt);
-                            }
-                            if (ET.startsWith("0")) {
-                                EndingTimeValue1 = String.format("%01d" , EndingInt);
-                            }
+                    if (startingMin > 5 || endingMin > 5) {
 
-                            StartingInt = Integer.valueOf(StartingTimeValue1);
-                            EndingInt = Integer.valueOf(EndingTimeValue1);
+                        //Displaying "Invalid Time (24hr)" as toast
+                        Toast.makeText(MainActivity.this, "Invalid Time (24hr)", Toast.LENGTH_SHORT).show();
 
-                            //inserting data
+                    } else {
 
-                            boolean isInserted =  mydb.insertData(NameInput.getText().toString(), DayOWeek, StartingInt, EndingInt);
-                            if(isInserted == true) {
-                                Toast.makeText(MainActivity.this, "Data Inserted",Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                Toast.makeText(MainActivity.this, "Data Failed To Inserted",Toast.LENGTH_LONG).show();
-                            }
-                        }
+                        //Checking if the Starting Time hour is too high (above 23)
 
-                    }
-                    else {
-                        throw new Exception();
-                    }
+                        int startingHour1 = Integer.valueOf(String.valueOf(StartingTimeArray[0]));
+                        int endingMinHour1 = Integer.valueOf(String.valueOf(EndingTimeArray[0]));
+                        int startingHour2 = Integer.valueOf(String.valueOf(StartingTimeArray[1]));
+                        int endingMinHour2 = Integer.valueOf(String.valueOf(EndingTimeArray[1]));
 
-                } catch (Exception e) {
-                    if (StartingTime.length() == 4 && EndingTime.length() == 4) {
+                        if (startingHour1 >= 2 && startingHour2 >= 4) {
 
+                            //Displaying "Invalid Time (24hr)" as toast
+                            Toast.makeText(MainActivity.this, "Invalid Time (24hr)", Toast.LENGTH_SHORT).show();
 
-                        char[] StartingTimeArray = StartingTime.toCharArray();
-                        char[] EndingTimeArray = EndingTime.toCharArray();
-
-                        String StartingTimeValue = String.valueOf(StartingTimeArray[2]);
-                        String EndingTimeValue = String.valueOf(EndingTimeArray[2]);
-
-                        String StartingTimeValue21 = StartingTimeValue;
-                        String EndingTimeValue21 = EndingTimeValue;
-
-                        int StartingTimeValue2Int = Integer.valueOf(StartingTimeValue21);
-                        int EndingTimeValue2Int = Integer.valueOf(EndingTimeValue21);
-
-
-                        if (StartingTimeValue2Int > 5 || EndingTimeValue2Int > 5) {
-                            Toast.makeText(MainActivity.this, "Invalid Time (It's 24hr!)", Toast.LENGTH_SHORT).show();
                         } else {
 
-                            int StartingInt = Integer.valueOf(StartingTime);
-                            int EndingInt = Integer.valueOf(EndingTime);
+                            //Checking if the Ending Time hour is too high (above 23)
 
-                            String ST = startingTime.getText().toString();
-                            String ET = endingTime.getText().toString();
+                            if (endingMinHour1 >= 2 && endingMinHour2 >= 4) {
 
-                            //Trying to have the int keep a 0 at the start
-
-                            if (ST.startsWith("0")) {
-                                StartingTime = String.format("%01d" , StartingInt);
-                            }
-                            if (ET.startsWith("0")) {
-                                EndingTime = String.format("%01d" , EndingInt);
-                            }
-
-                            StartingInt = Integer.valueOf(StartingTime);
-                            EndingInt = Integer.valueOf(EndingTime);
-
-                            //inserting data
-
-                            boolean isInserted = mydb.insertData(NameInput.getText().toString(), DayOWeek, StartingInt, EndingInt);
-                            if (isInserted == true) {
-                                Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_LONG).show();
+                                //Displaying "Invalid Time (24hr)" as toast
+                                Toast.makeText(MainActivity.this, "Invalid Time (24hr)", Toast.LENGTH_SHORT).show();
 
                             } else {
-                                Toast.makeText(MainActivity.this, "Data Failed To Inserted", Toast.LENGTH_LONG).show();
+
+                                //Calling the insertData functions from Database.java and storing the true or false return to isInserted
+                                boolean isInserted =  mydb.insertData(NameInput.getText().toString(), DayOWeek, startingInt, endingInt);
+                                if(isInserted == true) {
+                                    Toast.makeText(MainActivity.this, "Data Inserted",Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    Toast.makeText(MainActivity.this, "Data Failed To Inserted",Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
-                    } else {
-                        Toast.makeText(MainActivity.this, "Invalid Time (It's 24hr!)", Toast.LENGTH_SHORT).show();
                     }
-
                 }
 
             }

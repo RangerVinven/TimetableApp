@@ -93,29 +93,15 @@ public class Display extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf1 = new SimpleDateFormat("H");
 
-        String Hour1 = sdf1.format(calendar.getTime());
-
-        int hour = Integer.valueOf(Hour1);
-
-        if (Hour1.startsWith("0")) {
-            Cursor res = mydb.without();
-            res.moveToFirst();
-            if (res.getCount() == 0) {
-                textView1.setText("Nothing");
-            } else {
-                res.moveToFirst();
-                textView1.setText(res.getString(1));
-            }
+        Cursor res = mydb.getData();
+        res.moveToFirst();
+        if (res.getCount() == 0) {
+            textView1.setText("Nothing");
         } else {
-            Cursor res = mydb.with();
             res.moveToFirst();
-            if (res.getCount() == 0) {
-                textView1.setText("Nothing");
-            } else {
-                res.moveToFirst();
-                textView1.setText(res.getString(1));
-            }
+            textView1.setText(res.getString(0));
         }
+
     }
     public void viewAll() {
 

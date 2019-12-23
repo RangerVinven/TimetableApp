@@ -28,7 +28,7 @@ public class Sunday extends AppCompatActivity {
         Cursor data = myDB.Sunday();
 
         if(data.getCount() == 0){
-            Toast.makeText(Sunday.this, "There is no entries set for this day", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Sunday.this, "There are no entries set for this day", Toast.LENGTH_SHORT).show();
         }else {
             while (data.moveToNext()) {
                 theList.add(data.getString(1) + " - ID " + data.getString(0) + " / " + data.getString(2) + " - " + data.getString(3));

@@ -108,7 +108,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                     int Ending = Integer.valueOf(EndingTime);
 
                     boolean isUpdated = mydb.updateData(IDEditText.getText().toString(), NameEditText.getText().toString(), DOW1,
-                            Starting, Ending);
+                            Integer.valueOf(StartingTime), Integer.valueOf(EndingTime));
                     if (isUpdated == true) {
                         Toast.makeText(Edit.this, "Data Updated", Toast.LENGTH_LONG).show();
                     } else {
@@ -128,7 +128,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                         int Ending = Integer.valueOf(EndingTime);
 
                         boolean isUpdated = mydb.updateData(IDEditText.getText().toString(), NameEditText.getText().toString(), DOW1,
-                                Starting, Ending);
+                                Integer.valueOf(StartingTime), Integer.valueOf(EndingTime));
                         if (isUpdated == true) {
                             Toast.makeText(Edit.this, "Data Updated", Toast.LENGTH_LONG).show();
                         } else {
@@ -151,7 +151,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
                     int Ending = Integer.valueOf(EndingTime);
 
                     boolean isUpdated = mydb.updateData(IDEditText.getText().toString(), NameEditText.getText().toString(), DOW1,
-                            Starting, Ending);
+                            Integer.valueOf(StartingTime), Integer.valueOf(EndingTime));
                     if (isUpdated == true) {
                         Toast.makeText(Edit.this, "Data Updated", Toast.LENGTH_LONG).show();
                     } else {
@@ -182,7 +182,7 @@ public class Edit extends AppCompatActivity implements AdapterView.OnItemSelecte
             if (StartingTime.length() == 4 && EndingTime.length() == 4) {
                 if (thirdStarting2 > 5 || thirdEnding2 > 5) {
                     boolean isUpdated = mydb.updateData(IDEditText.getText().toString(), NameEditText.getText().toString(), DOW1,
-                            Starting, Ending);
+                            Integer.valueOf(StartingTime), Integer.valueOf(EndingTime));
                     if (isUpdated == true) {
                         Toast.makeText(Edit.this, "Data Updated", Toast.LENGTH_LONG).show();
                     } else {

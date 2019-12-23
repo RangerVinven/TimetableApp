@@ -31,7 +31,7 @@ public class Database extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //db.execSQL("create table " + TABLE_NAME + " (ID " + "INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, DAYOFWEEK TEXT, STARTINGTIME INTERGER, ENDINGTIME INTERGER) ");
-        db.execSQL("create table " + TABLE_NAME + " (ID " + "INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, DAYOFWEEK TEXT, STARTINGTIME TEXT, ENDINGTIME TEXT) ");
+        db.execSQL("create table " + TABLE_NAME + " (ID " + "INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, DAYOFWEEK TEXT, STARTINGTIME INTEGER, ENDINGTIME INTEGER) ");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -68,11 +68,11 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "ID = ?", new String[] {id});
     }
-    public Cursor data(String currentDay, int currentTime) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + COL_1 + " FROM " + TABLE_NAME + " WHERE " + COL_5 + " = " + "'" + currentDay + "'" + " and " + COL_2 + " <= " + currentTime + " and " + COL_3 + " >= " + currentTime, null);
-        return cursor;
-    }
+//    public Cursor data(String currentDay, int currentTime) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor = db.rawQuery("SELECT " + COL_1 + " FROM " + TABLE_NAME + " WHERE " + COL_5 + " = " + "'" + currentDay + "'" + " and " + COL_2 + " <= " + currentTime + " and " + COL_3 + " >= " + currentTime, null);
+//        return cursor;
+//    }
     public Cursor getData() {
 
         Calendar calendar = Calendar.getInstance();
@@ -116,8 +116,8 @@ public class Database extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor without = db.rawQuery("SELECT Name FROM " + TABLE_NAME + " WHERE " + COL_5 + " = " + "'" + currentDay + "'" + " and " + "'" + currentTime + "'" + " BETWEEN " + COL_2 + " and " + COL_3 + " Order By " + COL_2, null);
-        return without;
+        Cursor res = db.rawQuery("SELECT Name FROM " + TABLE_NAME + " WHERE " + COL_5 + " = " + "'" + currentDay + "'" + " and " + "'" + currentTime + "'" + " BETWEEN " + COL_2 + " and " + COL_3 + " Order By " + COL_2, null);
+        return res;
     }
     public Cursor getNextData() {
 
@@ -223,107 +223,4 @@ public class Database extends SQLiteOpenHelper {
         Cursor data = db.rawQuery("SELECT ID, Name, STARTINGTIME, ENDINGTIME FROM " + TABLE_NAME + " WHERE " + COL_5 + " = 'Sunday' ORDER BY " + COL_2 + " ASC" , null);
         return data;
     }
-    public Cursor without() {
-
-        Calendar calendar = Calendar.getInstance();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("u");
-        SimpleDateFormat sdf1 = new SimpleDateFormat("H");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
-
-        Date date = new Date();
-        Calendar calendar4 = Calendar.getInstance();
-        calendar4.setTime(date);
-        int hour = calendar4.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar4.get(Calendar.MINUTE);
-        String hourString = String.valueOf(hour);
-        String minuteString = String.valueOf(minute);
-
-        StringBuilder hourBuilder = new StringBuilder(hourString);
-
-        if (hourString.startsWith("0")) {
-            hourBuilder.deleteCharAt(0);
-        } else {
-        }
-
-        int currentTime = Integer.valueOf(hourBuilder.toString().concat(minuteString));
-
-        String Day = sdf.format(calendar.getTime());
-
-        String currentDay;
-        int DayInt = Integer.valueOf(Day);
-
-        if (DayInt == 1) {
-            currentDay = "Monday";
-        } else if (DayInt == 2) {
-            currentDay = "Tuesday";
-        } else if (DayInt == 3) {
-            currentDay = "Wednesday";
-        } else if (DayInt == 4) {
-            currentDay = "Thursday";
-        } else if (DayInt == 5) {
-            currentDay = "Friday";
-        } else if (DayInt == 6) {
-            currentDay = "Saturday";
-        } else {
-            currentDay = "Sunday";
-        }
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT ID, Name, STARTINGTIME, ENDINGTIME FROM " + TABLE_NAME + " WHERE " + COL_5 + " = '" + currentDay + "' and " + COL_2 + " < 1000 and '" + currentTime + "' BETWEEN " + COL_2 + " and " + COL_3 + " ORDER BY STARTINGTIME ASC", null);
-
-        return res;
-    }
-    public Cursor with() {
-
-        Calendar calendar = Calendar.getInstance();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("u");
-        SimpleDateFormat sdf1 = new SimpleDateFormat("H");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
-
-        Date date = new Date();
-        Calendar calendar4 = Calendar.getInstance();
-        calendar4.setTime(date);
-        int hour = calendar4.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar4.get(Calendar.MINUTE);
-        String hourString = String.valueOf(hour);
-        String minuteString = String.valueOf(minute);
-
-        StringBuilder hourBuilder = new StringBuilder(hourString);
-
-        if (hourString.startsWith("0")) {
-            hourBuilder.deleteCharAt(0);
-        } else {
-        }
-
-        int currentTime = Integer.valueOf(hourBuilder.toString().concat(minuteString));
-
-        String Day = sdf.format(calendar.getTime());
-
-        String currentDay;
-        int DayInt = Integer.valueOf(Day);
-
-        if (DayInt == 1) {
-            currentDay = "Monday";
-        } else if (DayInt == 2) {
-            currentDay = "Tuesday";
-        } else if (DayInt == 3) {
-            currentDay = "Wednesday";
-        } else if (DayInt == 4) {
-            currentDay = "Thursday";
-        } else if (DayInt == 5) {
-            currentDay = "Friday";
-        } else if (DayInt == 6) {
-            currentDay = "Saturday";
-        } else {
-            currentDay = "Sunday";
-        }
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT ID, Name, STARTINGTIME, ENDINGTIME FROM " + TABLE_NAME + " WHERE " + COL_5 + " = '" + currentDay + "' and " + COL_2 + " >= 1000 and '" + currentTime + "' BETWEEN " + COL_2 + " and " + COL_3 + " ORDER BY STARTINGTIME ASC", null);
-
-        return res;
-    }
-
 }
